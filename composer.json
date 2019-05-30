@@ -1,0 +1,42 @@
+{
+    "name": "roi-up-agency/lumen-cassandra",
+    "type": "library",
+    "description": "Cassandra support for Lumen 5.7.x database query builder",
+    "license": "MIT",
+    "keywords": [
+        "cassandra",
+        "nosql",
+        "lumen",
+        "database",
+        "query builder",
+        "cql"
+    ],
+    "require": {
+        "datastax/php-driver": "^1.2"
+    },
+    "authors": [
+        {
+            "name": "Sijoy Jos",
+            "email": "sijoy@cubettech.com"
+        },
+        {
+            "name": "Renny M Roy",
+            "email": "renny.roy@cubettech.com"
+        },
+	    {
+            "name": "Adrián Heras",
+            "email": "adrianheras@hotmail.com"
+        },
+	    {
+            "name": "Juan Solá",
+            "email": "jsola@roi-up.es"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "RoiupAgency\\LumenCassandra\\":"src/"
+            }
+        },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
