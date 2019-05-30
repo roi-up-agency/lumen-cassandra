@@ -3,7 +3,6 @@
 namespace RoiupAgency\LumenCassandra;
 
 use Illuminate\Support\ServiceProvider;
-use Cassandra;
 
 class CassandraServiceProvider extends ServiceProvider
 {

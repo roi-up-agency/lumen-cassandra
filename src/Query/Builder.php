@@ -2,17 +2,12 @@
 
 namespace RoiupAgency\LumenCassandra\Query;
 
-use Closure;
-use DateTime;
 use InvalidArgumentException;
 use Illuminate\Database\Query\Builder as BaseBuilder;
-use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use RoiupAgency\LumenCassandra\Connection;
 use Cassandra;
 use RoiupAgency\LumenCassandra\Helper\Helper;
-use PHPUnit\Runner\Exception;
 
 class Builder extends BaseBuilder
 {

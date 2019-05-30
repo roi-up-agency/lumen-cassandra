@@ -1,6 +1,6 @@
 <?php
 
-namespace RoiupAgency\LumenCassandra\Helper;
+namespace RoiupAgency\LumenCassandra\Helpers;
 
 class Helper
 {

@@ -2,7 +2,6 @@
 
 namespace RoiupAgency\LumenCassandra;
 
-use function GuzzleHttp\Psr7\str;
 use Illuminate\Database\Connection as BaseConnection;
 use Illuminate\Database\ConnectionResolverInterface as ConnectionResolverInterface;
 use Cassandra;
