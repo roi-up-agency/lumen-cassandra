@@ -7,7 +7,7 @@ use Illuminate\Database\Query\Builder as BaseBuilder;
 use Illuminate\Support\Arr;
 use RoiupAgency\LumenCassandra\Connection;
 use Cassandra;
-use RoiupAgency\LumenCassandra\Helper\Helper;
+use RoiupAgency\LumenCassandra\Helpers\Helper;
 
 class Builder extends BaseBuilder
 {

@@ -5,7 +5,7 @@ namespace RoiupAgency\LumenCassandra;
 use Illuminate\Database\Connection as BaseConnection;
 use Illuminate\Database\ConnectionResolverInterface as ConnectionResolverInterface;
 use Cassandra;
-use RoiupAgency\LumenCassandra\Helper\Helper;
+use RoiupAgency\LumenCassandra\Helpers\Helper;
 
 class Connection extends BaseConnection implements ConnectionResolverInterface
 {
