@@ -4,9 +4,15 @@ namespace RoiupAgency\LumenCassandra\Query;
 
 use Illuminate\Database\Query\Grammars\Grammar as BaseGrammar;
 use Illuminate\Database\Query\Builder as BaseBuilder;
+use Illuminate\Support\Facades\Schema;
 
 class Grammar extends BaseGrammar
 {
+
+    private const INSERT_ACTION = 'insert';
+    private const UPDATE_ACTION = 'update';
+    private const DELETE_ACTION = 'delete';
+
     /**
      * [compileSelect compiles the cql select]
      * @param  BaseBuilder $query [description]
@@ -48,6 +54,7 @@ class Grammar extends BaseGrammar
         // Essentially we will force every insert to be treated as a batch insert which
         // simply makes creating the CQL easier for us since we can utilize the same
         // basic routine regardless of an amount of records given to us to insert.
+        
         $table = $this->wrapTable($query->from);
         if (!is_array(reset($values))) {
             $values = [$values];
@@ -77,12 +84,11 @@ class Grammar extends BaseGrammar
         }
 
         // Adding auto id column in insert queries (it is not binded)
-        if (!empty($parameters)) {
-            //$columns .= ", id, createddate";
-            $columns .= ", createddate";
-            //$parameters .= ", now(), toTimestamp(now())";
-            $parameters .= ", toTimestamp(now())";
+        
+        if($query->applyTimestamps()){
+            $this->performTimestamps(self::INSERT_ACTION, $columns, $parameters);
         }
+        
 
         return "insert into $table ($columns) values ($parameters)";
     }
@@ -128,6 +134,7 @@ class Grammar extends BaseGrammar
         }
 
         $wheres = is_array($query->wheres) ? $this->compileWheres($query) : '';
+        
         return trim("delete " . $delColumns . " from {$this->wrapTable($query->from)} $wheres");
     }
 
@@ -159,6 +166,12 @@ class Grammar extends BaseGrammar
             $upateCollections = $columns ? ', ' . $upateCollections : $upateCollections;
         }
 
+        if($query->applyTimestamps()){
+            
+            $this->performTimestamps(self::UPDATE_ACTION, $columns, $upateCollections);
+            
+        }
+        
         return trim("update {$table} set $columns $upateCollections $wheres");
     }
 
@@ -254,6 +267,36 @@ class Grammar extends BaseGrammar
         $table = $this->wrapTable($query->from);
         $value = implode(", ", $columns);
         return "CREATE INDEX IF NOT EXISTS ON " . $table . "(" . $value . ")";
+    }
+
+    private function performTimestamps($action, &$columns, &$parameters){
+
+        $createdAt = env('CASSANDRA_INSERT_TIMESTAMP_FIELD', 'created_at');
+        $updatedAt = env('CASSANDRA_UPDATE_TIMESTAMP_FIELD', 'updated_at');
+        $deletedAt = env('CASSANDRA_DELETE_TIMESTAMP_FIELD', 'deleted_at');
+
+        
+        switch ($action) {
+            case self::INSERT_ACTION:
+                if (!empty($parameters)) {
+                    $columns .= ", $createdAt, $updatedAt";
+                    $parameters .= ", toTimestamp(now()), toTimestamp(now())";
+                }   
+                break;
+
+            case self::UPDATE_ACTION:
+                
+                $columns .= ", $updatedAt = toTimestamp(now())";
+                
+                break;
+
+            case self::DELETE_ACTION:
+                
+                $columns .= ", $deletedAt = toTimestamp(now())";
+                
+                break;
+        }
+    
     }
 
 }
