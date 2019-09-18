@@ -25,7 +25,7 @@ Cassandra support for Lumen 5.7.x database query builder
 
 Using composer:
 
-    composer require adrianheras/lumencassandra
+    composer require roi-up-agency/lumen-cassandra
 
 Add the line below in the "Register Service Provider" of bootstrap/app.php file:
 
@@ -39,6 +39,7 @@ Include to .env file the filled data below:
 	DB_KEYSPACE=mykeyspace
 	DB_USERNAME=
 	DB_PASSWORD=
+	DB_AUTH_TYPE= empty or userCredentials
 
 ### **Auth**
 
