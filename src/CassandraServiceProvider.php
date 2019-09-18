@@ -28,6 +28,7 @@ class CassandraServiceProvider extends ServiceProvider
             	'keyspace' => env('DB_KEYSPACE', 'mykeyspace'),
             	'username' => env('DB_USERNAME', ''),
             	'password' => env('DB_PASSWORD', ''),
+            	'authType' => env('DB_AUTH_TYPE', ''),
             ];
 
             if (env('DB_CLI_HOST',false) && $this->app->runningInConsole()) {
